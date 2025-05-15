@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="author" content="Abhishek Gupta" />
+  <meta name="description" content="TITAN'S CIRCUIT" />
+  <title>TITAN'S CIRCUIT</title>
+  <link rel="icon" href="../IMAGES/ICON.ico" type="image/x-icon" />
+  <link rel="stylesheet" href="../STYLES/SAMPLE.css" />
+  <script src="../SCRIPTS/HTML GENERATOR.js" defer></script>
+  <script src="../SCRIPTS/FUNCTIONS.js" defer></script>
+</head>
+<body>
+  <h1 style="text-align: center;">TITAN'S CIRCUIT</h1>
+  <div class="timers">
+    <div class="red-timer red" id="red">RED TIME: 05:00</div>
+    <div class="blue-timer blue" id="blue">BLUE TIME: 05:00</div>
+    <div class="turn-timer turn" id="turn">TURN TIME: 00:20</div>
+  </div>
+  <div class="board-container">
+    <div class="svg"></div>
+  </div>
+  <div class="controls">
+    <button id="pause" onclick="pause()">Pause</button>
+    <button id="resume" onclick="resume()">Resume</button>
+    <button id="reset" onclick="reset()">Reset</button>
+  </div>
+  <div>
+    <button class="undo" onclick="undoMove()">Undo</button>
+    <button class="redo" onclick="redoMove()">Redo</button>
+  </div>
+  <div class="scoreboard-wrapper">
+    <div class="scoreboard red-score">RED: 0</div>
+    <div class="scoreboard blue-score">BLUE: 0</div>
+  </div>
+</body>
+</html>

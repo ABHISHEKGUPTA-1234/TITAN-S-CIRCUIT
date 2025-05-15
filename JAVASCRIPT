@@ -1,0 +1,383 @@
+let blue = 0,red=0, outer = [], middle = [], inner = [],paused=0;
+let ismiddleunlocked=0,isinnerunlocked=0,currentTurn = 0;
+let redcircles=[],bluecircles=[];
+let phase="placement";
+const outercircles = ['c1', 'c2', 'c3', 'c4', 'c5', 'c6'];
+const middlecircles = ['b1', 'b2', 'b3', 'b4', 'b5', 'b6'];
+const innercircles = ['a1', 'a2', 'a3', 'a4', 'a5', 'a6'];
+const moveSound = new Audio('../SOUND/SOUND.mp3');
+
+function compare(a, b) {
+    if (a.length !== b.length) return false;
+    const sortedA = [...a].sort();
+    const sortedB = [...b].sort();
+    return sortedA.every((val, index) => val === sortedB[index]);
+}
+function inner1(){
+    if(compare(innercircles,inner)){
+        if(redscore>bluescore) winner("RED");
+        else if(redscore<bluescore) winner("BLUE");
+        else alert("DRAW");
+        reset();
+    }
+}
+function middleunlocked(){
+    if(compare(outercircles,outer)||ismiddleunlocked){
+        ismiddleunlocked=1;
+        return true;
+    }
+    else return false;
+}
+function innerunlocked(){
+    if(compare(middlecircles,middle)||isinnerunlocked){
+        isinnerunlocked=1;
+        return true;
+    }
+    else return false;
+}
+function pause(){
+    paused=1;
+    moveSound.currentTime = 0;
+    moveSound.play();
+}
+function resume(){
+    paused=0;
+    moveSound.currentTime = 0;
+    moveSound.play();
+}
+function reset() {
+    redcircles = [];
+    bluecircles = [];
+    blue = 0;
+    red = 0;
+    outer = [];
+    middle = [];
+    inner = [];
+    paused = 0;
+    ismiddleunlocked = 0;
+    isinnerunlocked = 0;
+    currentTurn =0;
+    redseconds = 300;
+    blueseconds = 300;
+    turnseconds = 20;
+    clearInterval(refreshtotal);
+    clearInterval(refreshturn);
+    refreshtotal = setInterval(totalcountdown, 1000);
+    refreshturn = setInterval(turncountdown, 1000);
+    document.querySelector('#red').innerHTML = `RED TIME: 05:00`;
+    document.querySelector('#blue').innerHTML = `BLUE TIME: 05:00`;
+    document.querySelector('.turn-timer').style.backgroundColor = "darkred";
+    outercircles.forEach(id => {
+        const circle = document.querySelector(`.${id}`);
+        if (circle) circle.setAttribute('fill', 'grey');
+    });
+    middlecircles.forEach(id => {
+        const circle = document.querySelector(`.${id}`);
+        if (circle) circle.setAttribute('fill', 'grey');
+    });
+    innercircles.forEach(id => {
+        const circle = document.querySelector(`.${id}`);
+        if (circle) circle.setAttribute('fill', 'grey');
+    });
+    totalcountdown();
+    turncountdown();
+    score();
+    moveSound.currentTime = 0;
+    moveSound.play();
+}
+
+function click(circ) {
+    if(paused) return;
+    let check=0;
+    if(outercircles.includes(circ)){
+        if(outer.includes(circ)) check=1;
+        else outer.push(circ);
+    }
+    else if(middlecircles.includes(circ)){
+        if(middleunlocked()){        
+            if(middle.includes(circ)) check=1;
+            else middle.push(circ);
+        }
+        else return;
+    }
+    else if(innercircles.includes(circ)){
+        if(innerunlocked()){       
+            if(inner.includes(circ)) check=1;
+            else inner.push(circ);
+        }
+        else return;
+    }
+    if (!check) {
+        saveGameState();
+        const circle = document.querySelector(`.${circ}`);
+        if (circle.getAttribute('fill') === 'grey') {
+            let placed = false;
+            if (currentTurn === 0&&red<4 ) {
+                circle.setAttribute('fill', 'red');
+                red++;
+                redcircles.push(circ);
+                placed = true;
+            } else if (currentTurn === 1&&blue<4 ) {
+                circle.setAttribute('fill', 'blue');
+                bluecircles.push(circ);
+                blue++;
+                placed = true;
+            }
+            if (placed) {
+                turnseconds = 20;
+                clearInterval(refreshturn);
+                refreshturn = setInterval(turncountdown, 1000)
+                turncountdown();
+                moveSound.currentTime = 0;
+                moveSound.play();
+            }
+            if (red + blue < 8) {
+                currentTurn = 1 - currentTurn;
+                document.querySelector('.turn-timer').style.backgroundColor = currentTurn === 0 ? "darkred" : "darkblue";
+            }
+            /*if (red + blue >= 8) {
+                movement(circ);
+            }*/
+        }
+    }
+    score();
+    setTimeout(inner1, 100);
+}
+
+/*function movement(circ){
+   IF 
+}*/
+
+let redseconds = 300;
+let blueseconds = 300;
+let turnseconds = 20;
+let refreshtotal = setInterval(totalcountdown, 1000);
+let refreshturn = setInterval(turncountdown, 1000);
+
+function totalcountdown() {
+    if (paused) return;
+    if (currentTurn === 0) {
+        const minutes = '0'+Math.floor(redseconds / 60);
+        let seconds = redseconds % 60;
+        seconds = seconds < 10 ? '0' + seconds : seconds;
+        const countdown = document.querySelector('#red');
+        countdown.innerHTML = `RED TIME: ${minutes}:${seconds}`;
+        redseconds--;
+        if (redseconds < 0) {
+            clearInterval(refreshtotal);
+            countdown.innerHTML = "RED TIME: 00:00";
+            winner("BLUE");
+        }
+    } 
+    else {
+        const minutes = '0'+Math.floor(blueseconds / 60);
+        let seconds = blueseconds % 60;
+        seconds = seconds < 10 ? '0' + seconds : seconds;
+        const countdown = document.querySelector('#blue');
+        countdown.innerHTML = `BLUE TIME: ${minutes}:${seconds}`;
+        blueseconds--;
+        if (blueseconds < 0) {
+            clearInterval(refreshtotal);
+            countdown.innerHTML = "BLUE TIME: 00:00";
+            winner("RED");
+        }
+    }
+}
+
+function turncountdown() {
+    if (paused) return;
+    const minutes = '0'+Math.floor(turnseconds / 60);
+    let seconds = turnseconds % 60;
+    seconds = seconds < 10 ? '0' + seconds : seconds;
+    const countdown = document.querySelector('.turn-timer');
+    countdown.innerHTML = `TURN TIME: ${minutes}:${seconds}`;
+    turnseconds--;
+    if (turnseconds < 0) {
+        currentTurn = 1 - currentTurn;
+        turnseconds = 20;
+        clearInterval(refreshturn);
+        refreshturn = setInterval(turncountdown, 1000);
+        countdown.style.backgroundColor = currentTurn === 0 ? "darkred" : "darkblue";
+    }
+}
+
+function winner(win){
+    if(win=="RED") alert("RED WINS");
+    else alert("BLUE WINS");
+    reset();
+}
+
+
+let redscore = 0, bluescore = 0;
+
+function score() {
+    redscore = 0,bluescore=0;
+    if (redcircles.includes("c1") && redcircles.includes("c2")) redscore += 1;
+    if (redcircles.includes("c1") && redcircles.includes("c6")) redscore += 2;
+    if (redcircles.includes("c2") && redcircles.includes("c3")) redscore += 1;
+    if (redcircles.includes("c3") && redcircles.includes("c4")) redscore += 3;
+    if (redcircles.includes("c4") && redcircles.includes("c5")) redscore += 2;
+    if (redcircles.includes("c5") && redcircles.includes("c6")) redscore += 1;
+
+    if (redcircles.includes("b1") && redcircles.includes("b4")) redscore += 4;
+    if (redcircles.includes("b1") && redcircles.includes("b3")) redscore += 5;
+    if (redcircles.includes("b3") && redcircles.includes("b6")) redscore += 6;
+    if (redcircles.includes("b6") && redcircles.includes("b2")) redscore += 4;
+    if (redcircles.includes("b2") && redcircles.includes("b5")) redscore += 5;
+    if (redcircles.includes("b5") && redcircles.includes("b4")) redscore += 6;
+
+    if (redcircles.includes("a1") && redcircles.includes("a3")) redscore += 8;
+    if (redcircles.includes("a1") && redcircles.includes("a4")) redscore += 9;
+    if (redcircles.includes("a3") && redcircles.includes("a5")) redscore += 8;
+    if (redcircles.includes("a5") && redcircles.includes("a2")) redscore += 9;
+    if (redcircles.includes("a2") && redcircles.includes("a6")) redscore += 8;
+    if (redcircles.includes("a4") && redcircles.includes("a6")) redscore += 8;
+
+    if (redcircles.includes("a1") && redcircles.includes("b1")) redscore += 1;
+    if (redcircles.includes("a6") && redcircles.includes("b5")) redscore += 1;
+    if (redcircles.includes("a5") && redcircles.includes("b6")) redscore += 1;
+    if (redcircles.includes("c2") && redcircles.includes("b3")) redscore += 1;
+    if (redcircles.includes("b4") && redcircles.includes("c6")) redscore += 1;
+    if (redcircles.includes("b2") && redcircles.includes("c4")) redscore += 1;
+
+    if (bluecircles.includes("c1") && bluecircles.includes("c2")) bluescore += 1;
+    if (bluecircles.includes("c1") && bluecircles.includes("c6")) bluescore += 2;
+    if (bluecircles.includes("c2") && bluecircles.includes("c3")) bluescore += 1;
+    if (bluecircles.includes("c3") && bluecircles.includes("c4")) bluescore += 3;
+    if (bluecircles.includes("c4") && bluecircles.includes("c5")) bluescore += 2;
+    if (bluecircles.includes("c5") && bluecircles.includes("c6")) bluescore += 1;
+    
+    if (bluecircles.includes("b1") && bluecircles.includes("b4")) bluescore += 4;
+    if (bluecircles.includes("b1") && bluecircles.includes("b3")) bluescore += 5;
+    if (bluecircles.includes("b3") && bluecircles.includes("b6")) bluescore += 6;
+    if (bluecircles.includes("b6") && bluecircles.includes("b2")) bluescore += 4;
+    if (bluecircles.includes("b2") && bluecircles.includes("b5")) bluescore += 5;
+    if (bluecircles.includes("b5") && bluecircles.includes("b4")) bluescore += 6;
+    
+    if (bluecircles.includes("a1") && bluecircles.includes("a3")) bluescore += 8;
+    if (bluecircles.includes("a1") && bluecircles.includes("a4")) bluescore += 9;
+    if (bluecircles.includes("a3") && bluecircles.includes("a5")) bluescore += 8;
+    if (bluecircles.includes("a5") && bluecircles.includes("a2")) bluescore += 9;
+    if (bluecircles.includes("a2") && bluecircles.includes("a6")) bluescore += 8;
+    if (bluecircles.includes("a4") && bluecircles.includes("a6")) bluescore += 8;
+    
+    if (bluecircles.includes("a1") && bluecircles.includes("b1")) bluescore += 1;
+    if (bluecircles.includes("a6") && bluecircles.includes("b5")) bluescore += 1;
+    if (bluecircles.includes("a5") && bluecircles.includes("b6")) bluescore += 1;
+    if (bluecircles.includes("c2") && bluecircles.includes("b3")) bluescore += 1;
+    if (bluecircles.includes("b4") && bluecircles.includes("c6")) bluescore += 1;
+    if (bluecircles.includes("b2") && bluecircles.includes("c4")) bluescore += 1;
+
+    const redscores = document.querySelector('.red-score');
+    redscores.innerHTML=`RED: ${redscore}`;
+    const bluescores = document.querySelector('.blue-score');
+    bluescores.innerHTML=`BLUE: ${bluescore}`;
+}
+
+
+let gameHistory = [];
+let redoStack = [];
+
+function saveGameState() {
+    gameHistory.push({
+        outer: [...outer],
+        middle: [...middle],
+        inner: [...inner],
+        redcircles: [...redcircles],
+        bluecircles: [...bluecircles],
+        red: red,
+        blue: blue,
+        currentTurn: currentTurn,
+        redseconds: redseconds,
+        blueseconds: blueseconds,
+        turnseconds: turnseconds,
+        ismiddleunlocked: ismiddleunlocked,
+        isinnerunlocked: isinnerunlocked,
+    });
+    redoStack = [];
+}
+
+function undoMove() {
+    if (gameHistory.length === 0) return;
+
+    const lastState = gameHistory.pop();
+    redoStack.push({
+        outer: [...outer],
+        middle: [...middle],
+        inner: [...inner],
+        redcircles: [...redcircles],
+        bluecircles: [...bluecircles],
+        red: red,
+        blue: blue,
+        currentTurn: currentTurn,
+        redseconds: redseconds,
+        blueseconds: blueseconds,
+        turnseconds: turnseconds,
+        ismiddleunlocked: ismiddleunlocked,
+        isinnerunlocked: isinnerunlocked,
+    });
+
+    restoreState(lastState);
+    moveSound.currentTime = 0;
+    moveSound.play();
+}
+
+function redoMove() {
+    moveSound.currentTime = 0;
+    moveSound.play();
+    if (redoStack.length === 0) return;
+
+    const nextState = redoStack.pop();
+    gameHistory.push({
+        outer: [...outer],
+        middle: [...middle],
+        inner: [...inner],
+        redcircles: [...redcircles],
+        bluecircles: [...bluecircles],
+        red: red,
+        blue: blue,
+        currentTurn: currentTurn,
+        redseconds: redseconds,
+        blueseconds: blueseconds,
+        turnseconds: turnseconds,
+        ismiddleunlocked: ismiddleunlocked,
+        isinnerunlocked: isinnerunlocked,
+    });
+    restoreState(nextState);
+}
+
+function restoreState(state) {
+    outer = [...state.outer];
+    middle = [...state.middle];
+    inner = [...state.inner];
+    redcircles = [...state.redcircles];
+    bluecircles = [...state.bluecircles];
+    red = state.red;
+    blue = state.blue;
+    currentTurn = state.currentTurn;
+    redseconds = state.redseconds;
+    blueseconds = state.blueseconds;
+    turnseconds = state.turnseconds;
+    ismiddleunlocked = state.ismiddleunlocked;
+    isinnerunlocked = state.isinnerunlocked;
+
+    const allCircles = [...outercircles, ...middlecircles, ...innercircles];
+    allCircles.forEach(id => {
+        const circle = document.querySelector(`.${id}`);
+        if (circle) circle.setAttribute('fill', 'grey');
+    });
+
+    redcircles.forEach(id => {
+        const circle = document.querySelector(`.${id}`);
+        if (circle) circle.setAttribute('fill', 'red');
+    });
+
+    bluecircles.forEach(id => {
+        const circle = document.querySelector(`.${id}`);
+        if (circle) circle.setAttribute('fill', 'blue');
+    });
+
+    document.querySelector('.turn-timer').style.backgroundColor = currentTurn === 0 ? "darkred" : "darkblue";
+
+    score();
+}

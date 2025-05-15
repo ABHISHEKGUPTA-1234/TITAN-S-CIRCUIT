@@ -1,0 +1,186 @@
+body {
+    background-color: rgb(67, 67, 67);
+    margin: 0;
+    padding: 0;
+    text-align: center;
+  }
+  
+  h1 {
+    color: aliceblue;
+    margin-top: 15px;
+    font-size: 6vw;
+    display: inline-block;
+  }
+  
+  h1:hover {
+    animation: glow 2s;
+  }
+  
+  @keyframes glow {
+    50% {
+      box-shadow: 0px 0px 50px hsl(64, 97%, 35%);
+    }
+  }
+  
+  .container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+    box-sizing: border-box;
+    flex-shrink: 0;
+  }
+  
+  svg {
+    width: 90vw;
+    height: auto;
+    max-width: 600px;
+  }
+  
+  polygon {
+    fill: hsl(214, 97%, 41%);
+    stroke: white;
+    stroke-width: 2;
+  }
+  
+  .circle-button {
+    transition: transform 0.2s ease;
+    cursor: pointer;
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+  
+  .circle-button:hover {
+    transform: scale(1.2);
+  }
+  
+  .game-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 2rem;
+    padding: 1rem;
+  }
+  
+  .scoreboard-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    align-items: center;
+  }
+  
+  .scoreboard {
+    font-size: 1.5rem;
+    font-weight: bold;
+    padding: 0.75rem 1.25rem;
+    border-radius: 10px;
+    background-color: #222;
+    color: white;
+    min-width: 100px;
+    text-align: center;
+  }
+  
+  .red-score {
+    color: red;
+    border: 2px solid red;
+  }
+  
+  .blue-score {
+    color: blue;
+    border: 2px solid blue;
+  }
+  
+  .timers {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin: 1rem;
+    flex-wrap: wrap;
+  }
+  
+  .timer,
+  .turn-timer {
+    background-color: darkred;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: white;
+    background-color: #333;
+    padding: 0.75rem 1.5rem;
+    border-radius: 10px;
+    text-align: center;
+  }
+  
+  .red-timer {
+    border: 2px solid red;
+  }
+  
+  .blue-timer {
+    border: 2px solid blue;
+  }
+  
+  .turn-timer {
+    border: 2px solid yellow;
+  }
+  
+  .turn-timer.red {
+    border-color: red;
+    background-color: #440000;
+  }
+  
+  .turn-timer.blue {
+    border-color: rgb(0, 191, 239);
+    background-color: #001144;
+  }
+  
+  .controls {
+    margin: 1rem 0;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  
+  .controls button {
+    padding: 8px 14px;
+    font-size: 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    border: none;
+    background-color: #555;
+    color: white;
+    transition: background-color 0.3s;
+  }
+  
+  .controls button:hover {
+    background-color: #777;
+  }
+  
+  @media (max-width: 600px) {
+    h1 {
+      font-size: 8vw;
+    }
+  
+    .scoreboard {
+      font-size: 1.2rem;
+      padding: 0.5rem 1rem;
+    }
+  
+    .timer,
+    .turn-timer {
+      font-size: 1rem;
+      padding: 0.5rem 1rem;
+    }
+  
+    .controls button {
+      font-size: 14px;
+      padding: 6px 12px;
+    }
+  }
+  
+  .undo,.redo{
+    font-size: 1.2rem;
+    padding: 0.5rem 1rem;
+    border-radius: 10px;
+  }

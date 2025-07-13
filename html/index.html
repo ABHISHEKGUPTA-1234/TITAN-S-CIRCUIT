@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="author" content="Abhishek Gupta" />
+  <meta name="description" content="TITAN'S CIRCUIT" />
+  <title>TITAN'S CIRCUIT</title>
+  <link rel="icon" href="../img/icon.ico" type="image/x-icon" />
+  <link rel="stylesheet" href="../styles/index.css" />
+  <script src="../scripts/html.js" defer></script>
+  <script src="../scripts/index.js" defer></script>
+</head>
+<body>
+
+  <!-- Start Screen with Welcome Message -->
+  <div id="start-screen" class="start-screen">
+    <div class="welcome-box">
+      <h2>WELCOME TO TITAN'S CIRCUIT</h2>
+      <p>RULES :-</p>
+      <p>THERE ARE TWO COLOURS RED AND BLUE, EACH ASSIGNED TO EITHER OF THE PLAYER</p>
+      <p>PLAYER CAN MOVE IT'S PIECES AFTER PLACING IT'S INITIAL 4 PIECES</p>
+      <p>MOVEMENT OF PIECES WILL ONLY BE STARTED IF ALL 4 PIECES OF EACH PLAYER IS PLACES</p>
+      <p>EVERY PLAYER GETS TOTAL 5 MINUTE TIME TO PLAY THE GAME</p>
+      <p>EVERY PLAYER GETS 20 SECONDS TIME TO PLAY THE MOVE</p>
+      <p>IF THE PLAYER DOESN'T PLAY THE MOVE IN 20 SECONDS THEN OTHER PLAYER WILL PLAY IT'S MOVE SKIPPING THE FIRST PLAYER'S MOVE</p>
+      <p>IF AN OPPONENT CAPTURES AN EDGE THEN POINTS ASSIGNED TO THAT EDGE WILL BE ADDED TO PLAYER SCORE</p>
+      <p>IF THE PLAYER LEAVES AN CAPTURED EDGE THEN THE POINTS OF THAT EDGE WILL REDUCED FROM THE PLAYER'S SCORE</p>
+      <p>PLAYER CAN MOVE IT'S PIECES TO INNER BY CONNECTED CIRCLES ONLY IF IT IS NOT OCCUPIED</p>
+      <p>PLAYER PIECE WILL BE ELIMINATED IF IT IS COMPLETELY SURROUNDED BY OTHER PLAYERS PIECES</p>
+      <p>IF A PLAYER GO OUT OF TIME, THEN THE OTHER PLAYER WINS</p>
+      <p>IF A PLAYER DOESN'T HAVE ANY VALID MOVES TO MOVE THE PIECE, THEN OTHER PLAYER WILL MOVE</p>
+      <p>IF THE INNERMOST HEXAGON GETS COMPLETELY FILLED, THEN THE PLAYER WITH HIGHEST SCORE WILL MOVE</p>
+      <button id="continue-button">CONTINUE</button>
+    </div>
+  </div>
+
+  <!-- End Game Screen -->
+  <div id="end-screen" class="start-screen" style="display: none;">
+    <div class="welcome-box">
+      <h2 id="winner-text">RESULT</h2>
+      <p>WANT TO PLAY AGAIN?</p>
+      <button id="end-continue-button">CONTINUE</button>
+    </div>
+  </div>
+
+  <!-- Main Game UI -->
+  <div id="main-game" style="display: none;">
+    <h1>TITAN'S CIRCUIT</h1>
+
+    <div class="timers">
+      <div class="red-timer" id="red">RED TIME: 05:00</div>
+      <div class="blue-timer" id="blue">BLUE TIME: 05:00</div>
+      <div class="turn-timer" id="turn">TURN TIME: 00:20</div>
+    </div>
+
+    <div class="scoreboard-wrapper">
+      <div class="scoreboard red-score">RED: 0</div>
+      <div class="scoreboard blue-score">BLUE: 0</div>
+    </div>
+
+    <div class="board-container">
+      <div class="svg"></div>
+    </div>
+
+    <div class="controls">
+      <button id="pause" onclick="pause()">Pause</button>
+      <button id="resume" onclick="resume()">Resume</button>
+      <button id="reset" onclick="reset()">Reset</button>
+    </div>
+  </div>
+
+</body>
+</html>

@@ -406,7 +406,7 @@ function click(circ) {
 
         // Delay score and phase transition to allow elimination visuals
         setTimeout(() => {
-            redcircles = redcircles.filter(id => { // Re-filter to remove eliminated pieces
+            redcircles = redcircles.filter(id => {
                 const c = document.querySelector(`.${id}`);
                 return c && c.getAttribute('fill') === 'red';
             });
@@ -415,16 +415,26 @@ function click(circ) {
                 return c && c.getAttribute('fill') === 'blue';
             });
 
+            // Only check for elimination if both players have placed their pieces
             if (redPlaced >= 4 && bluePlaced >= 4) {
+                if (redcircles.length === 0) {
+                    winner("BLUE");
+                    return;
+                }
+                if (bluecircles.length === 0) {
+                    winner("RED");
+                    return;
+                }
+
                 phase = "movement";
-                currentTurn = 0; // Red always starts movement phase
+                currentTurn = 0; // Red starts movement
                 updateTurnVisuals();
-                checkNoMoves(); // Check for no moves at phase start
+                checkNoMoves();
             }
 
             score();
-            setTimeout(inner1, 100); // Check inner ring for win condition
-        }, 200); // Small delay for visual consistency
+            setTimeout(inner1, 100);
+        }, 200);
     } else if (phase === "movement") {
         movement(circ);
     }

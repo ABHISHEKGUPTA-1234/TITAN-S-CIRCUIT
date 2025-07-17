@@ -1,4 +1,3 @@
-
 body {
   background: rgb(136, 247, 190);
   transition: background 0.5s ease;
@@ -7,7 +6,6 @@ body {
   text-align: center;
   font-family: 'Roboto', Arial, sans-serif;
 }
-
 h1 {
   color: #131313;
   margin-top: 20px;
@@ -18,46 +16,38 @@ h1 {
   display: inline-block;
   text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
 }
-
 h1:hover, h1:focus {
   animation: glow 1.5s ease-in-out;
 }
-
 @keyframes glow {
   50% {
     text-shadow: 0 0 20px hsl(64, 97%, 50%), 0 0 30px hsl(64, 97%, 35%);
   }
 }
-
 svg {
   width: 85vw;
   height: auto;
   max-width: 700px;
   filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
 }
-
 polygon {
   fill: hsl(214, 80%, 45%);
   stroke: #ffffff;
   stroke-width: 2.5;
   transition: fill 0.3s ease;
 }
-
 polygon:hover {
   fill: hsl(214, 80%, 55%);
 }
-
 .circle-button {
   transition: transform 0.2s ease;
   cursor: pointer;
   transform-box: fill-box;
   transform-origin: center;
 }
-
 .circle-button:hover, .circle-button:focus {
   transform: scale(1.15);
 }
-
 .scoreboard-wrapper {
   display: flex;
   flex-direction: row;
@@ -66,7 +56,6 @@ polygon:hover {
   flex-wrap: wrap;
   justify-content: center;
 }
-
 .scoreboard {
   font-size: 1.6rem;
   font-weight: 600;
@@ -78,17 +67,14 @@ polygon:hover {
   text-align: center;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
 }
-
 .red-score {
   color: #ff4d4d;
   border: 2px solid #ff4d4d;
 }
-
 .blue-score {
   color: #4da8ff;
   border: 2px solid #4da8ff;
 }
-
 .timers {
   display: flex;
   justify-content: center;
@@ -97,28 +83,24 @@ polygon:hover {
   flex-wrap: wrap;
   color: white;
 }
-
 .red-timer {
   border: 2px solid #ff4d4d;
   border-radius: 10px;
   padding: 10px 16px;
   background: linear-gradient(45deg, #4d0000, #660000);
 }
-
 .blue-timer {
   border: 2px solid #4da8ff;
   border-radius: 10px;
   padding: 10px 16px;
   background: linear-gradient(45deg, #003366, #004080);
 }
-
 .turn-timer {
   border: 2px solid #ff4d4d;
   border-radius: 10px;
   padding: 10px 16px;
   background: linear-gradient(45deg, #4d0000, #660000);
 }
-
 .controls {
   margin: 1.5rem 0;
   display: flex;
@@ -126,7 +108,6 @@ polygon:hover {
   flex-wrap: wrap;
   gap: 12px;
 }
-
 .controls button {
   padding: 10px 16px;
   font-size: 1rem;
@@ -139,33 +120,26 @@ polygon:hover {
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
 }
-
 .controls button:hover, .controls button:focus {
   transform: translateY(-2px);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
 }
-
 @media (max-width: 600px) {
   h1 {
     font-size: 7.5vw;
   }
-
   .scoreboard {
     font-size: 1.3rem;
     padding: 0.6rem 1.2rem;
   }
-
   .controls button {
     font-size: 0.9rem;
     padding: 8px 14px;
   }
-
   .scoreboard-wrapper {
     gap: 0.8rem;
   }
 }
-
-/* 🎉 Welcome message screen */
 .start-screen {
   position: fixed;
   top: 0;
@@ -178,7 +152,6 @@ polygon:hover {
   align-items: center;
   justify-content: center;
 }
-
 .welcome-box {
   background: #f0f3bd;
   color: #222;
@@ -188,17 +161,14 @@ polygon:hover {
   max-width: 90%;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
 }
-
 .welcome-box h2 {
   margin-bottom: 1rem;
   font-size: 1.8rem;
 }
-
 .welcome-box p {
   font-size: 1.5rem;
   margin-bottom: 1.5rem;
 }
-
 .welcome-box button {
   padding: 10px 24px;
   font-size: 16px;
@@ -210,7 +180,6 @@ polygon:hover {
   cursor: pointer;
   transition: background-color 0.2s ease;
 }
-
 .welcome-box button:hover {
   background-color: #0056b3;
 }

@@ -12,8 +12,6 @@
   <script src="../scripts/index.js" defer></script>
 </head>
 <body>
-
-  <!-- Start Screen with Welcome Message -->
   <div id="start-screen" class="start-screen">
     <div class="welcome-box">
       <h2>WELCOME TO TITAN'S CIRCUIT</h2>
@@ -34,8 +32,6 @@
       <button id="continue-button">CONTINUE</button>
     </div>
   </div>
-
-  <!-- End Game Screen -->
   <div id="end-screen" class="start-screen" style="display: none;">
     <div class="welcome-box">
       <h2 id="winner-text">RESULT</h2>
@@ -43,32 +39,25 @@
       <button id="end-continue-button">CONTINUE</button>
     </div>
   </div>
-
-  <!-- Main Game UI -->
   <div id="main-game" style="display: none;">
     <h1>TITAN'S CIRCUIT</h1>
-
     <div class="timers">
       <div class="red-timer" id="red">RED TIME: 05:00</div>
       <div class="blue-timer" id="blue">BLUE TIME: 05:00</div>
       <div class="turn-timer" id="turn">TURN TIME: 00:20</div>
     </div>
-
     <div class="scoreboard-wrapper">
       <div class="scoreboard red-score">RED: 0</div>
       <div class="scoreboard blue-score">BLUE: 0</div>
     </div>
-
     <div class="board-container">
       <div class="svg"></div>
     </div>
-
     <div class="controls">
       <button id="pause" onclick="pause()">Pause</button>
       <button id="resume" onclick="resume()">Resume</button>
       <button id="reset" onclick="reset()">Reset</button>
     </div>
   </div>
-
 </body>
 </html>
